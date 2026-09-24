@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="بازی آموزشی سفر پاییزی ایمنی - کانال افماز | AfmazScience">
+<meta name="theme-color" content="#3d2413">
+<meta property="og:title" content="🍂 سفر پاییزی ایمنی | افماز">
+<meta property="og:description" content="با بازی، یاد بگیر چطور بدنت رو برای پاییز مقاوم کنی!">
+<meta property="og:type" content="website">
+<title>افماز | سفر پاییزی ایمنی 🍂</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍂</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { overflow-x: hidden; }
+  body {
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    background: linear-gradient(160deg, #1f1209 0%, #3d2413 50%, #5a3218 100%);
+    min-height: 100vh;
+    color: #fff;
+    padding: 14px;
+    position: relative;
+  }
+  .leaf {
+    position: fixed; top: -50px; animation: fall linear infinite;
+    opacity: 0.55; pointer-events: none; z-index: 0;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.6; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+  .app { max-width: 560px; margin: 0 auto; position: relative; z-index: 2; }
+
+  .brand {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 14px;
+    background: rgba(255, 248, 238, 0.06);
+    border: 1px solid rgba(255, 200, 140, 0.2);
+    border-radius: 16px; margin-bottom: 14px;
+    backdrop-filter: blur(10px);
+  }
+  .brand .logo {
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 900; font-size: 15px; color: #ffb347;
+  }
+  .brand .logo span.dot {
+    width: 8px; height: 8px; background: #ffb347;
+    border-radius: 50%; box-shadow: 0 0 10px #ffb347;
+  }
+  .brand .handle { font-size: 12px; color: #d9b48c; font-weight: 600; }
+
+  .progress-wrap {
+    background: rgba(255, 248, 238, 0.06);
+    border-radius: 14px; padding: 10px 14px;
+    margin-bottom: 14px;
+    border: 1px solid rgba(255, 200, 140, 0.2);
+  }
+  .progress-meta {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: #ffd9a8; margin-bottom: 6px; font-weight: 700;
+  }
+  .progress-bar {
+    height: 8px; background: rgba(0,0,0,0.35);
+    border-radius: 10px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, #ff8c42, #ffb347);
+    border-radius: 10px; transition: width 0.5s ease;
+  }
+
+  .stats { display: flex; gap: 8px; margin-bottom: 14px; }
+  .stat {
+    flex: 1; background: rgba(255, 248, 238, 0.06);
+    border: 1px solid rgba(255, 200, 140, 0.2);
+    border-radius: 14px; padding: 10px; text-align: center;
+  }
+  .stat .num {
+    font-size: 20px; font-weight: 900; color: #ffb347;
+    display: block; line-height: 1;
+  }
+  .stat .lbl {
+    font-size: 10.5px; color: #d9b48c;
+    margin-top: 4px; font-weight: 600;
+  }
+
+  .screen { display: none; animation: fadeIn 0.5s ease; }
+  .screen.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .start-box {
+    background: linear-gradient(145deg, #fff8ee, #fbe8d0);
+    color: #3d2418; border-radius: 26px;
+    padding: 30px 22px; text-align: center;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.4);
+    border: 2px solid rgba(255,255,255,0.6);
+  }
+  .start-box .hero {
+    font-size: 70px; display: block; margin-bottom: 12px;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-8px); }
+  }
+  .start-box h1 {
+    font-size: 24px; font-weight: 900; color: #8a3d1a;
+    margin-bottom: 10px; line-height: 1.4;
+  }
+  .start-box p {
+    font-size: 14.5px; line-height: 2;
+    color: #5a3823; margin-bottom: 20px;
+  }
+  .start-box .badge {
+    display: inline-block; background: #fff0d6;
+    color: #a04a1f; font-size: 12px; font-weight: 800;
+    padding: 5px 14px; border-radius: 20px;
+    border: 1.5px dashed #d99b6c; margin-bottom: 16px;
+  }
+
+  .scene {
+    background: linear-gradient(145deg, #fff8ee, #fbe8d0);
+    color: #3d2418; border-radius: 26px;
+    padding: 24px 20px;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.4);
+    border: 2px solid rgba(255,255,255,0.6);
+    margin-bottom: 14px;
+  }
+  .scene-time {
+    display: inline-block; background: #8a3d1a;
+    color: #ffd9a8; font-size: 11px; font-weight: 800;
+    padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;
+  }
+  .scene-avatar {
+    font-size: 54px; text-align: center;
+    display: block; margin-bottom: 10px;
+    animation: wobble 3s ease-in-out infinite;
+  }
+  @keyframes wobble {
+    0%,100% { transform: rotate(0deg); }
+    25%     { transform: rotate(-5deg); }
+    75%     { transform: rotate(5deg); }
+  }
+  .scene h2 {
+    font-size: 18px; font-weight: 900; color: #8a3d1a;
+    text-align: center; margin-bottom: 10px; line-height: 1.6;
+  }
+  .scene .story {
+    font-size: 14.5px; line-height: 2;
+    color: #5a3823; text-align: center;
+    margin-bottom: 20px; padding: 0 6px;
+  }
+
+  .choices { display: flex; flex-direction: column; gap: 10px; }
+  .choice {
+    background: #fff; border: 2px solid #f0cfa6;
+    border-radius: 16px; padding: 14px 16px;
+    font-family: inherit; font-size: 14.5px; font-weight: 700;
+    color: #3d2418; cursor: pointer; text-align: right;
+    display: flex; align-items: center; gap: 10px;
+    transition: 0.2s; line-height: 1.6;
+  }
+  .choice:hover {
+    border-color: #e8a87c; transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(200,120,60,0.2);
+  }
+  .choice .icon { font-size: 22px; flex-shrink: 0; }
+  .choice.correct {
+    background: #e6f5e0; border-color: #7cbf5a; color: #2e5c17;
+  }
+  .choice.wrong {
+    background: #fbe0e0; border-color: #d96666; color: #7a2323;
+  }
+  .choice:disabled { cursor: default; opacity: 0.85; }
+  .choice:disabled:hover { transform: none; box-shadow: none; }
+
+  .feedback {
+    margin-top: 16px; padding: 16px 18px;
+    border-radius: 18px; font-size: 14px;
+    line-height: 2; animation: slideIn 0.4s ease; display: none;
+  }
+  .feedback.show { display: block; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .feedback.good {
+    background: linear-gradient(135deg, #e6f5e0, #d4eccb);
+    border-right: 5px solid #7cbf5a; color: #2e5c17;
+  }
+  .feedback.bad {
+    background: linear-gradient(135deg, #fbe0e0, #f7cccc);
+    border-right: 5px solid #d96666; color: #7a2323;
+  }
+  .feedback .title {
+    font-weight: 900; display: block;
+    margin-bottom: 6px; font-size: 15px;
+  }
+  .feedback .facts {
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px dashed rgba(0,0,0,0.12);
+    font-size: 13px; line-height: 1.9;
+  }
+  .feedback .facts b { color: #8a3d1a; }
+
+  .btn {
+    display: block; width: 100%; padding: 15px;
+    font-family: inherit; font-size: 16px; font-weight: 800;
+    color: #fff;
+    background: linear-gradient(135deg, #e8622a, #c9410e);
+    border: none; border-radius: 16px; cursor: pointer;
+    box-shadow: 0 6px 0 #8a2c08, 0 10px 25px rgba(232,98,42,0.45);
+    transition: 0.12s; margin-top: 14px;
+  }
+  .btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #8a2c08;
+  }
+  .btn.hidden { display: none; }
+
+  .end-box {
+    background: linear-gradient(145deg, #fff8ee, #fbe8d0);
+    color: #3d2418; border-radius: 26px;
+    padding: 30px 22px; text-align: center;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.4);
+    border: 2px solid rgba(255,255,255,0.6);
+  }
+  .end-box .medal {
+    font-size: 80px; display: block; margin-bottom: 10px;
+    animation: pop 0.6s cubic-bezier(.4,1.6,.6,1);
+  }
+  @keyframes pop {
+    from { transform: scale(0); }
+    to   { transform: scale(1); }
+  }
+  .end-box h2 {
+    font-size: 22px; font-weight: 900;
+    color: #8a3d1a; margin-bottom: 10px;
+  }
+  .end-box .score-big {
+    font-size: 40px; font-weight: 900;
+    color: #e8622a; display: block; margin: 8px 0;
+  }
+  .end-box p {
+    font-size: 14.5px; line-height: 2;
+    color: #5a3823; margin-bottom: 16px;
+  }
+  .summary {
+    background: #fff8ee; border: 1.5px dashed #d99b6c;
+    border-radius: 16px; padding: 14px 16px;
+    margin: 16px 0; text-align: right; font-size: 13px;
+  }
+  .summary .row {
+    padding: 6px 0; border-bottom: 1px dashed #f0d6b8;
+    display: flex; justify-content: space-between;
+  }
+  .summary .row:last-child { border-bottom: none; }
+  .summary .row .ok { color: #4a8a2e; font-weight: 800; }
+  .summary .row .no { color: #c94a4a; font-weight: 800; }
+
+  .cta-box {
+    margin: 20px 0 12px;
+    padding: 20px 18px;
+    background: linear-gradient(145deg, #fff0d6, #fbe0b8);
+    border-radius: 22px;
+    border: 2px dashed #d99b6c;
+    text-align: center;
+  }
+  .cta-box .cta-title {
+    font-size: 15px; font-weight: 900;
+    color: #8a3d1a; margin-bottom: 6px;
+  }
+  .cta-box .cta-sub {
+    font-size: 12.5px; color: #a04a1f;
+    margin-bottom: 14px; line-height: 1.8;
+  }
+  .cta-buttons {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .cta-btn {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px;
+    padding: 14px 18px;
+    font-family: inherit; font-size: 15px; font-weight: 800;
+    color: #fff; text-decoration: none;
+    border-radius: 16px;
+    transition: 0.15s;
+    box-shadow: 0 5px 0 rgba(0,0,0,0.2), 0 8px 20px rgba(0,0,0,0.15);
+  }
+  .cta-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+  }
+  .cta-btn.telegram {
+    background: linear-gradient(135deg, #2AABEE, #229ED9);
+  }
+  .cta-btn.rubika {
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+  }
+  .cta-btn .cta-icon { font-size: 20px; }
+  .cta-btn .cta-text { display: flex; flex-direction: column; align-items: flex-start; }
+  .cta-btn .cta-text small {
+    font-size: 10.5px; font-weight: 600; opacity: 0.9;
+  }
+
+  .footer {
+    text-align: center; margin-top: 20px;
+    padding: 16px; font-size: 12px;
+    color: #d9b48c;
+    background: rgba(255, 248, 238, 0.05);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 200, 140, 0.15);
+    line-height: 2;
+  }
+  .footer b { color: #ffb347; font-weight: 900; }
+  .footer .links {
+    margin-top: 6px; font-size: 11px; color: #a08060;
+  }
+
+  .confetti {
+    position: fixed; width: 10px; height: 10px;
+    top: -20px; z-index: 200;
+    pointer-events: none;
+    animation: confFall 2.5s linear forwards;
+  }
+  @keyframes confFall {
+    to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="brand">
+    <div class="logo"><span class="dot"></span> افماز</div>
+    <div class="handle">AfmazScience</div>
+  </div>
+
+  <div class="progress-wrap" id="progressWrap" style="display:none;">
+    <div class="progress-meta">
+      <span>📖 فصل <span id="chapterNum">۱</span> از <span id="chapterTotal">۱۱</span></span>
+      <span id="progressPct">۰٪</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <div class="stats" id="statsBox" style="display:none;">
+    <div class="stat">
+      <span class="num" id="scoreVal">۰</span>
+      <span class="lbl">⭐ امتیاز</span>
+    </div>
+    <div class="stat">
+      <span class="num" id="correctVal">۰</span>
+      <span class="lbl">✅ درست</span>
+    </div>
+    <div class="stat">
+      <span class="num" id="learnedVal">۰</span>
+      <span class="lbl">📚 آموخته</span>
+    </div>
+  </div>
+
+  <div class="screen active" id="screenStart">
+    <div class="start-box">
+      <span class="hero">🍂🧣</span>
+      <div class="badge">بازی آموزشی پاییزی — افماز</div>
+      <h1>سفر پاییزی ایمنی</h1>
+      <p>
+        سلام! من <b>آرین</b> هستم، یه دانش‌آموز کنجکاو.<br>
+        پاییز شروع شده و می‌خوام بدنم رو مقاوم کنم.<br>
+        تو این سفر <b>۱۱ موقعیت</b> پیش میاد که باید تصمیم بگیری.<br>
+        هر انتخابی، یه درس بهت می‌ده! 🌿
+      </p>
+      <button class="btn" onclick="startGame()">🚀 شروع سفر</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screenScene"></div>
+  <div class="screen" id="screenEnd"></div>
+
+  <div class="footer">
+    ساخته شده برای کانال <b>افماز</b> 🌿
+    <div class="links">📢 AfmazScience | روبیکا و تلگرام</div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   بازی آموزشی سفر پاییزی ایمنی — افماز | AfmazScience
+   ========================================================= */
+const scenes = [
+  {
+    time: "🌅 صبح زود — ساعت ۷",
+    avatar: "🛌",
+    title: "بیدار شدن",
+    story: "چشمات رو باز می‌کنی. هوا سرده و گلوت یه‌کم خشک شده. اولین کاری که می‌کنی چیه؟",
+    choices: [
+      { icon: "☕", text: "یه فنجون قهوه غلیظ می‌خورم تا بیدار شم", correct: false,
+        feedback: "قهوه غلیظ صبح ناشتا، معده رو اذیت می‌کنه و به‌جای آبرسانی، بدن رو بیشتر خشک می‌کنه.",
+        fact: "کافئین زیاد ادرارآوره و می‌تونه باعث کم‌آبی خفیف بشه؛ در حالی که بدن صبح به آب نیاز داره." },
+      { icon: "💧", text: "یه لیوان آب گرم با چند قطره لیمو می‌خورم", correct: true,
+        feedback: "آفرین! این بهترین شروع روزه. آب گرم بدن رو بعد از خواب طولانی آبرسانی می‌کنه و لیمو یه دوز ملایم ویتامین C بهت می‌ده.",
+        fact: "ویتامین C به تقویت ایمنی کمک می‌کنه و آب گرم گلو رو نرم و رفلکس‌های ایمنی مخاط رو فعال می‌کنه." },
+      { icon: "🥤", text: "نوشابه سرد می‌خورم تا بیدار شم", correct: false,
+        feedback: "نوشابه سرد صبح ناشتا، همون‌طور که فکر می‌کنی، اصلاً انتخاب خوبی نیست!",
+        fact: "نوشیدنی سرد مخاط گلو رو تحریک می‌کنه و قند زیادش ایمنی رو تضعیف می‌کنه." }
+    ]
+  },
+  {
+    time: "🍳 صبحانه — ساعت ۸",
+    avatar: "🥣",
+    title: "وعده صبحانه",
+    story: "مادرت ازت می‌پرسه صبحانه چی می‌خوری؟ سه گزینه روی میز هست...",
+    choices: [
+      { icon: "🍩", text: "شیرینی و چای شیرین", correct: false,
+        feedback: "شیرینی قند ساده‌ست و بعد از نیم ساعت گرسنه‌تر می‌شی. این وعده ایمنی‌ت رو قوی نمی‌کنه.",
+        fact: "قند ساده التهاب خفیف ایجاد می‌کنه و به مدت کوتاه بعدش سیستم ایمنی ضعیف‌تر می‌شه." },
+      { icon: "🍳", text: "تخم‌مرغ + نان سبوس‌دار + گردو", correct: true,
+        feedback: "عالیه! این ترکیب پروتئین، فیبر، سلنیوم و ویتامین E داره؛ همه‌شون به ایمنی کمک می‌کنن.",
+        fact: "سلنیوم و روی موجود در تخم‌مرغ و گردو نقش مستقیم در ساخت سلول‌های ایمنی دارن." },
+      { icon: "🚫", text: "چیزی نمی‌خورم تا ناهار", correct: false,
+        feedback: "نخوردن صبحانه، قند خون رو افت می‌ده و بدن برای مقابله با میکروب‌ها ضعیف می‌شه.",
+        fact: "مطالعات نشون دادن حذف صبحانه با افزایش عفونت‌های تنفسی در فصول سرد مرتبطه." }
+    ]
+  },
+  {
+    time: "🎒 مسیر مدرسه — ساعت ۹",
+    avatar: "🧣",
+    title: "هوای سرد بیرون",
+    story: "بیرون باد سردی میاد. مادرت می‌گه شال‌گردنت رو بنداز. تو چیکار می‌کنی؟",
+    choices: [
+      { icon: "🧣", text: "شال‌گردن رو می‌ندازم و کاپشن می‌پوشم", correct: true,
+        feedback: "کار درستی می‌کنی! سرما باعث تنگ شدن رگ‌ها و کاهش گردش سلول‌های ایمنی می‌شه.",
+        fact: "تحقیقات نشون داده سرمای ناگهانی بدن رو در برابر ویروس‌های تنفسی آسیب‌پذیرتر می‌کنه." },
+      { icon: "😎", text: "من سردم نمی‌شه، همین‌طوری می‌رم", correct: false,
+        feedback: "متأسفانه این طرز فکر خیلی از ما رو مریض می‌کنه. سرماخوردگی فقط از ویروس نیست، از ضعف بدن هم هست.",
+        fact: "سرما سیستم دفاعی مخاط بینی رو کند می‌کنه و ویروس‌ها راحت‌تر نفوذ می‌کنن." }
+    ]
+  },
+  {
+    time: "💉 مطب پزشک — ساعت ۱۱",
+    avatar: "🩺",
+    title: "واکسن آنفولانزا",
+    story: "مادرت می‌گه وقت واکسن آنفولانزاست. تو چی تصمیم می‌گیری؟",
+    choices: [
+      { icon: "💉", text: "واکسن رو می‌زنم، چون فصل آنفولانزا شروع شده", correct: true,
+        feedback: "آفرین! واکسن آنفولانزا بهترین سپر محافظتی در فصل پاییز و زمستونه و شدت بیماری رو خیلی کم می‌کنه.",
+        fact: "سازمان جهانی بهداشت توصیه می‌کنه همه افراد بالای ۶ ماه، هر سال واکسن آنفولانزا بزنن؛ مخصوصاً کودکان، سالمندان و افراد با بیماری زمینه‌ای." },
+      { icon: "😐", text: "من نیازی ندارم، خودم قوی‌ام", correct: false,
+        feedback: "حتی بدن‌های قوی هم در برابر آنفولانزا آسیب‌پذیرن. واکسن باعث می‌شه اگه هم مریض شدی، خیلی سبک‌تر بگذره.",
+        fact: "واکسن آنفولانزا خطر بستری شدن در بیمارستان رو تا ۴۰٪ و مرگ‌ومیر ناشی از آنفولانزا رو در کودکان سالم تا ۶۵٪ کاهش می‌ده." }
+    ]
+  },
+  {
+    time: "🏠 خانه — ساعت ۱۲",
+    avatar: "🪟",
+    title: "هوای خونه",
+    story: "خونه گرم و بسته‌ست. پنجره‌ها از صبح بسته‌ان. تو چیکار می‌کنی؟",
+    choices: [
+      { icon: "🔥", text: "پنجره‌ها رو بسته نگه می‌دارم تا گرما بیرون نره", correct: false,
+        feedback: "هوای بسته و راکد، محل تجمع ویروس‌ها و باکتری‌هاست. توی هوای راکد، احتمال ابتلای همه بیشتر می‌شه.",
+        fact: "مطالعات نشون دادن تهویه مناسب هوا می‌تونه انتقال ویروس‌های تنفسی رو تا ۷۰٪ کم کنه." },
+      { icon: "🪟", text: "چند دقیقه پنجره رو باز می‌کنم تا هوای تازه بیاد", correct: true,
+        feedback: "کار درست! حتی ۵ تا ۱۰ دقیقه تهویه متقاطع، هوای آلوده رو خارج و اکسیژن تازه رو وارد می‌کنه.",
+        fact: "در فصول سرد، روزی ۳ بار و هر بار ۵ تا ۱۰ دقیقه تهویه کامل (پنجره‌های روبه‌روی هم) توصیه می‌شه." },
+      { icon: "💨", text: "از دستگاه تصفیه هوا استفاده می‌کنم ولی پنجره رو باز نمی‌کنم", correct: false,
+        feedback: "تصفیه هوا خوبه، ولی جایگزین تهویه نیست. ویروس‌ها در هوای راکد باقی می‌مونن.",
+        fact: "تصفیه هوا فقط ذرات معلق رو کم می‌کنه، ولی دی‌اکسید کربن و ویروس‌های هوابرد رو خارج نمی‌کنه." }
+    ]
+  },
+  {
+    time: "🍽 ناهار — ساعت ۱۳",
+    avatar: "🍲",
+    title: "وعده ناهار",
+    story: "سفره پهن شده. کدوم ترکیب رو انتخاب می‌کنی؟",
+    choices: [
+      { icon: "🍔", text: "فست‌فود و سیب‌زمینی سرخ‌کرده", correct: false,
+        feedback: "فست‌فود چربی اشباع و نمک زیادی داره که التهاب بدن رو بالا می‌بره.",
+        fact: "چربی‌های ترانس موجود در فست‌فود عملکرد سلول‌های دفاعی رو مختل می‌کنن." },
+      { icon: "🍲", text: "سوپ سبزیجات + مرغ + نان سبوس‌دار", correct: true,
+        feedback: "انتخاب عالی! سوپ گرم هم مایعات بدن رو تأمین می‌کنه هم مواد مغذی زیادی داره.",
+        fact: "سبزیجات رنگی آنتی‌اکسیدان‌های زیادی دارن که به تقویت سیستم ایمنی کمک می‌کنن." },
+      { icon: "🥗", text: "سالاد کاهو با سس مایونز", correct: false,
+        feedback: "سالاد خوبه، ولی سس مایونز پرچرب و پرکالری، خاصیت‌های خوب سالاد رو کم می‌کنه.",
+        fact: "بهتره سالاد رو با روغن زیتون و آبلیمو بخوری تا از خواص آنتی‌اکسیدانی‌اش بهره ببری." }
+    ]
+  },
+  {
+    time: "🏃 بعدازظهر — ساعت ۱۶",
+    avatar: "🌳",
+    title: "زمان ورزش",
+    story: "یه ساعت وقت آزاد داری. چه کاری برای بدنت بهتره؟",
+    choices: [
+      { icon: "📱", text: "دراز می‌کشم و گوشی بازی می‌کنم", correct: false,
+        feedback: "استراحت گاهی خوبه، ولی ورزش منظم گردش سلول‌های ایمنی رو در بدن زیاد می‌کنه.",
+        fact: "بی‌تحرکی طولانی‌مدت با التهاب مزمن خفیف در بدن مرتبطه." },
+      { icon: "🚶", text: "۳۰ دقیقه پیاده‌روی سریع می‌کنم", correct: true,
+        feedback: "کارت درسته! ورزش منظم گردش سلول‌های ایمنی رو زیاد می‌کنه و بدنت رو قوی‌تر می‌کنه.",
+        fact: "۱۵۰ دقیقه ورزش هوازی متوسط در هفته برای تقویت ایمنی توصیه می‌شه." },
+      { icon: "🏋️", text: "فقط تمرین سنگین وزنه می‌زنم", correct: false,
+        feedback: "تمرین سنگین خیلی خوبه ولی بیش از حدش می‌تونه موقتاً ایمنی رو پایین بیاره.",
+        fact: "تمرین‌های شدید و طولانی بدون استراحت کافی، بدن رو مستعد عفونت می‌کنه. تعادل مهمه." }
+    ]
+  },
+  {
+    time: "☕ عصر — ساعت ۱۷",
+    avatar: "🫖",
+    title: "دمنوش عصرانه",
+    story: "خسته از مدرسه برگشتی. حالا یه دمنوش می‌خوای که بدنت رو گرم کنه. کدوم؟",
+    choices: [
+      { icon: "🫚", text: "زنجبیل + لیمو + عسل", correct: true,
+        feedback: "انتخاب هوشمندانه‌ای! این ترکیب ضدالتهاب، ضدمیکروبی و گرم‌کننده‌ست.",
+        fact: "زنجبیل ترکیبات ضدالتهابی مثل جینجرول داره که به کاهش گلودرد کمک می‌کنه." },
+      { icon: "🌼", text: "دمنوش بابونه + عسل", correct: true,
+        feedback: "خیلی خوبه! بابونه آروم‌بخشه و عسل خاصیت ضدباکتریایی داره. برای بعدازظهر آروم، انتخابی درسته.",
+        fact: "عسل طبیعی حاوی پراکسید هیدروژن طبیعی‌ست و ضدسرفه مؤثرتری از شربت‌های شیمیایی در بعضی مطالعات نشون داده." },
+      { icon: "🥤", text: "نوشیدنی انرژی‌زا", correct: false,
+        feedback: "نوشیدنی‌های انرژی‌زا پر از شکر و کافئین هستن. بدن رو گرم نمی‌کنن، فقط هیجان موقت می‌دن.",
+        fact: "قند بالا در نوشیدنی‌های انرژی‌زا سلول‌های ایمنی رو برای چند ساعت ضعیف می‌کنه." }
+    ]
+  },
+  {
+    time: "🧘 غروب — ساعت ۱۹",
+    avatar: "😰",
+    title: "استرس امتحان",
+    story: "فردا امتحان داری و حسابی استرس گرفتی. بدنت سرد شده و قلبت تند می‌زنه. چیکار می‌کنی؟",
+    choices: [
+      { icon: "😵", text: "تا صبح بی‌وقفه درس می‌خونم، خواب هم مهم نیست", correct: false,
+        feedback: "کم‌خوابی + استرس زیاد، بدترین ترکیب برای سیستم ایمنیه. بدنت در برابر ویروس‌ها ضعیف می‌شه.",
+        fact: "استرس مزمن هورمون کورتیزول رو زیاد می‌کنه که مستقیماً سلول‌های ایمنی رو سرکوب می‌کنه." },
+      { icon: "🧘", text: "۱۰ دقیقه تنفس عمیق می‌کنم، بعد یه مرور کوتاه و می‌خوابم", correct: true,
+        feedback: "عالی! تنفس عمیق سطح کورتیزول رو کم می‌کنه و خواب کافی، حافظه و ایمنی رو تقویت می‌کنه.",
+        fact: "۱۰ دقیقه مدیتیشن روزانه می‌تونه التهاب رو کم و فعالیت سلول‌های NK (کشنده طبیعی) رو زیاد کنه." },
+      { icon: "🍫", text: "با شکلات و نوشابه انرژی می‌گیرم تا بیدار بمونم", correct: false,
+        feedback: "قند و کافئین زیاد، استرس رو بیشتر می‌کنه و کیفیت خواب رو خراب می‌کنه.",
+        fact: "قند بالا در شب، تولید ملاتونین (هورمون خواب و ایمنی) رو مختل می‌کنه." }
+    ]
+  },
+  {
+    time: "🛁 شب — ساعت ۲۰",
+    avatar: "🧼",
+    title: "بهداشت فردی",
+    story: "از بیرون برگشتی و می‌خوای شام بخوری. قبلش چیکار می‌کنی؟",
+    choices: [
+      { icon: "🍽", text: "مستقیم دست می‌زنم به غذا", correct: false,
+        feedback: "این اشتباه رایج خیلی از ماست! دست‌ها ناقل اصلی ویروس و باکتری هستن.",
+        fact: "شست‌وشوی دست‌ها با آب و صابون تا ۲۰ ثانیه، انتقال عفونت‌های تنفسی رو تا ۳۰ درصد کم می‌کنه." },
+      { icon: "🧼", text: "دست‌هام رو ۲۰ ثانیه با آب و صابون می‌شورم", correct: true,
+        feedback: "کار درست! شست‌وشوی دست‌ها یکی از مؤثرترین راه‌های پیشگیری از عفونته.",
+        fact: "حداقل ۲۰ ثانیه شست‌وشو، سطح باکتری و ویروس روی دست‌ها رو به‌شدت کم می‌کنه." }
+    ]
+  },
+  {
+    time: "🌙 قبل خواب — ساعت ۲۲",
+    avatar: "😴",
+    title: "آماده شدن برای خواب",
+    story: "خسته‌ای و فردا باید زود بیدار شی. شب رو چطور تموم می‌کنی؟",
+    choices: [
+      { icon: "📺", text: "تا ۱ بامداد فیلم می‌بینم", correct: false,
+        feedback: "کم‌خوابی یکی از بزرگ‌ترین دشمن‌های سیستم ایمنیه.",
+        fact: "افرادی که کمتر از ۵ ساعت در شب می‌خوابن، ۴.۵ برابر بیشتر دچار سرماخوردگی می‌شن." },
+      { icon: "🥛", text: "شیر گرم + زردچوبه + عسل می‌خورم و ساعت ۲۲:۳۰ می‌خوابم", correct: true,
+        feedback: "بهترین پایان روز! شیر طلایی التهاب رو کم می‌کنه و خواب باکیفیت، ایمنی رو بازسازی می‌کنه.",
+        fact: "خواب ۷ تا ۸ ساعت باعث تولید سلول‌های T می‌شه که برای مقابله با ویروس‌ها حیاتی‌ن." }
+    ]
+  }
+];
+
+let currentScene = 0;
+let score = 0;
+let correctCount = 0;
+let learned = [];
+let userAnswers = [];
+
+(function makeLeaves() {
+  const icons = ["🍂","🍁","🍃","🌿"];
+  for (let i = 0; i < 10; i++) {
+    const leaf = document.createElement("div");
+    leaf.className = "leaf";
+    leaf.textContent = icons[Math.floor(Math.random()*icons.length)];
+    leaf.style.left = Math.random()*100 + "vw";
+    leaf.style.animationDuration = (7 + Math.random()*8) + "s";
+    leaf.style.animationDelay = (Math.random()*8) + "s";
+    leaf.style.fontSize = (14 + Math.random()*16) + "px";
+    document.body.appendChild(leaf);
+  }
+})();
+
+function toFa(n) { return String(n).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]); }
+
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function startGame() {
+  currentScene = 0; score = 0; correctCount = 0; learned = []; userAnswers = [];
+  document.getElementById("progressWrap").style.display = "block";
+  document.getElementById("statsBox").style.display = "flex";
+  document.getElementById("chapterTotal").textContent = toFa(scenes.length);
+  updateStats();
+  showScreen("screenScene");
+  renderScene();
+}
+
+function updateStats() {
+  document.getElementById("scoreVal").textContent = toFa(score);
+  document.getElementById("correctVal").textContent = toFa(correctCount);
+  document.getElementById("learnedVal").textContent = toFa(learned.length);
+  document.getElementById("chapterNum").textContent = toFa(currentScene + 1);
+  const pct = Math.round((currentScene / scenes.length) * 100);
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressPct").textContent = toFa(pct) + "٪";
+}
+
+function renderScene() {
+  const scene = scenes[currentScene];
+  const box = document.getElementById("screenScene");
+  let choicesHtml = scene.choices.map((c, i) =>
+    `<button class="choice" data-index="${i}" onclick="selectChoice(${i})">
+       <span class="icon">${c.icon}</span><span>${c.text}</span>
+     </button>`).join("");
+  box.innerHTML = `
+    <div class="scene">
+      <span class="scene-time">${scene.time}</span>
+      <span class="scene-avatar">${scene.avatar}</span>
+      <h2>${scene.title}</h2>
+      <p class="story">${scene.story}</p>
+      <div class="choices" id="choicesBox">${choicesHtml}</div>
+      <div class="feedback" id="feedback"></div>
+      <button class="btn hidden" id="nextBtn" onclick="nextScene()">ادامه داستان ⏭</button>
+    </div>`;
+  updateStats();
+}
+
+function selectChoice(index) {
+  const scene = scenes[currentScene];
+  const choice = scene.choices[index];
+  const allChoices = document.querySelectorAll(".choice");
+  const feedback = document.getElementById("feedback");
+  const nextBtn = document.getElementById("nextBtn");
+
+  allChoices.forEach((btn, i) => {
+    btn.disabled = true;
+    if (scene.choices[i].correct) btn.classList.add("correct");
+    else if (i === index) btn.classList.add("wrong");
+  });
+
+  if (choice.correct) {
+    score += 20; correctCount++; learned.push(scene.title);
+    feedback.className = "feedback show good";
+    feedback.innerHTML = `<span class="title">✅ درست! +۲۰ امتیاز</span>${choice.feedback}
+      <div class="facts">💡 <b>بیشتر بدونیم:</b> ${choice.fact}</div>`;
+    burstConfetti(20); playPop(true);
+  } else {
+    score += 5;
+    feedback.className = "feedback show bad";
+    feedback.innerHTML = `<span class="title">❌ اشتباه! +۵ امتیاز تلاش</span>${choice.feedback}
+      <div class="facts">💡 <b>نکته آموزشی:</b> ${choice.fact}</div>`;
+    playPop(false);
+  }
+
+  userAnswers.push({ correct: choice.correct, title: scene.title });
+  updateStats();
+  nextBtn.classList.remove("hidden");
+}
+
+function nextScene() {
+  currentScene++;
+  if (currentScene >= scenes.length) endGame();
+  else renderScene();
+}
+
+function endGame() {
+  document.getElementById("progressWrap").style.display = "none";
+  document.getElementById("statsBox").style.display = "none";
+  const maxScore = scenes.length * 20;
+  let medal, title, msg;
+  if (score >= maxScore * 0.85) { medal = "🏆"; title = "قهرمان ایمنی!";
+    msg = "عالی بود! تو یه استاد واقعی مراقبت از خودت هستی. این عادت‌ها رو ادامه بده."; }
+  else if (score >= maxScore * 0.6) { medal = "🥇"; title = "آفرین، حرفه‌ای شدی!";
+    msg = "خیلی خوب بود! چند جا اشتباه کردی ولی نکته‌هاش رو یاد گرفتی. بازم تمرین کن."; }
+  else if (score >= maxScore * 0.4) { medal = "🥈"; title = "خوب بود، ولی جای پیشرفت داری!";
+    msg = "نصف راه رو اومدی. یه بار دیگه بازی کن تا نکته‌ها رو کامل یاد بگیری."; }
+  else { medal = "🌱"; title = "شروع خوبی بود!";
+    msg = "مهم اینه که شروع کردی. یه دور دیگه بازی کن، مطمئنم بهتر می‌شی."; }
+
+  let summaryHtml = "";
+  scenes.forEach((s, i) => {
+    const ans = userAnswers[i]; if (!ans) return;
+    summaryHtml += `<div class="row"><span>${s.avatar} ${s.title}</span>
+      <span class="${ans.correct ? 'ok' : 'no'}">${ans.correct ? '✅ درست' : '❌ اشتباه'}</span></div>`;
+  });
+
+  const box = document.getElementById("screenEnd");
+  box.innerHTML = `
+    <div class="end-box">
+      <span class="medal">${medal}</span>
+      <h2>${title}</h2>
+      <span class="score-big">${toFa(score)} / ${toFa(maxScore)}</span>
+      <p>${msg}</p>
+      <div class="summary">
+        <div style="font-weight:900; color:#8a3d1a; margin-bottom:8px;">📋 کارنامه سفر تو:</div>
+        ${summaryHtml}
+      </div>
+      <p style="font-size:13px; color:#8a3d1a; font-weight:700;">
+        🌿 چیزهایی که یاد گرفتی رو تو زندگی واقعی هم انجام بده تا پاییز سالمی داشته باشی.
+      </p>
+      <div class="cta-box">
+        <div class="cta-title">🌿 ادامه سفر رو با افماز دنبال کن!</div>
+        <div class="cta-sub">نکته‌های علمی، بازی‌های آموزشی و مطالب جذاب دیگه<br>منتظرت هستن. عضو کانال ما شو 👇</div>
+        <div class="cta-buttons">
+          <a class="cta-btn telegram" href="https://t.me/AfmazScience" target="_blank" rel="noopener">
+            <span class="cta-icon">✈️</span>
+            <span class="cta-text"><span>عضویت در تلگرام افماز</span><small>@AfmazScience</small></span>
+          </a>
+          <a class="cta-btn rubika" href="https://rubika.ir/AfmazScience" target="_blank" rel="noopener">
+            <span class="cta-icon">💬</span>
+            <span class="cta-text"><span>عضویت در روبیکای افماز</span><small>AfmazScience</small></span>
+          </a>
+        </div>
+      </div>
+      <button class="btn" onclick="startGame()">🔄 یه دور دیگه بازی کن</button>
+    </div>`;
+  showScreen("screenEnd");
+  for (let i = 0; i < 40; i++) setTimeout(() => burstConfetti(15), i * 60);
+}
+
+function burstConfetti(count = 15) {
+  const colors = ["#ffb347","#ff8c42","#ffd700","#e8622a","#8fbc8f","#f4c39a"];
+  for (let i = 0; i < count; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random()*100 + "vw";
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+    c.style.animationDelay = (Math.random()*0.3) + "s";
+    c.style.animationDuration = (1.5 + Math.random()*1.5) + "s";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3000);
+  }
+}
+
+let audioCtx;
+function playPop(good) {
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+    o.type = "sine";
+    if (good) {
+      o.frequency.setValueAtTime(600, audioCtx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(1100, audioCtx.currentTime + 0.15);
+    } else {
+      o.frequency.setValueAtTime(400, audioCtx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.2);
+    }
+    g.gain.setValueAtTime(0.12, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+    o.start(); o.stop(audioCtx.currentTime + 0.3);
+  } catch(e) {}
+}
+</script>
+</body>
+</html>
